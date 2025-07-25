@@ -3,7 +3,7 @@ import {
   isPunctuationAdjacent, 
   sanitizeWord, 
   hasCorrectPunctuationSpacing 
-} from '../tokenUtils';
+} from './tokenUtils';
 
 describe('tokenUtils', () => {
   describe('tokenizeInput', () => {

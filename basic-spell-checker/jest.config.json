@@ -24,7 +24,8 @@
     "!src/**/*.d.ts"
   ],
   "setupFilesAfterEnv": [],
-  "moduleNameMapping": {
+  "modulePathIgnorePatterns": [],
+  "moduleNameMapper": {
     "^(\\.{1,2}/.*)\\.js$": "$1"
   }
 }

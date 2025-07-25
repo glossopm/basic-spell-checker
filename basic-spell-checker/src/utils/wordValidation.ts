@@ -1,10 +1,12 @@
 import { wordSet } from '../config/wordSet';
 import { sanitizeWord, isPunctuationAdjacent, hasCorrectPunctuationSpacing } from './tokenUtils';
+import { findSuggestions } from './findSuggestions';
 
 export interface TokenValidationResult {
   className: string;
   isValid: boolean;
   tokenType: 'word' | 'punctuation' | 'whitespace' | 'other';
+  suggestions?: string[];
 }
 
 /**
@@ -18,6 +20,7 @@ export const validateToken = (token: string, tokens: string[], index: number): T
   let className = '';
   let isValid = true;
   let tokenType: TokenValidationResult['tokenType'] = 'other';
+  let suggestions: string[] = [];
 
   if (isWord) {
     tokenType = 'word';
@@ -25,8 +28,9 @@ export const validateToken = (token: string, tokens: string[], index: number): T
     const isValidWord = wordSet.has(sanitizedToken);
     
     if (!isValidWord) {
-      className = 'bg-red-200 text-red-800 px-1';
+      className = 'bg-red-200 text-red-800 px-1 rounded border-b-2 border-red-500 border-dotted';
       isValid = false;
+      suggestions = findSuggestions(sanitizedToken);
     }
   } else if (isPunctuation) {
     tokenType = 'punctuation';
@@ -43,7 +47,8 @@ export const validateToken = (token: string, tokens: string[], index: number): T
   return {
     className,
     isValid,
-    tokenType
+    tokenType,
+    ...(suggestions.length > 0 && { suggestions })
   };
 };
 

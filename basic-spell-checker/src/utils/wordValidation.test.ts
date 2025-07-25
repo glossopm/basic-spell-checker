@@ -1,7 +1,7 @@
-import { validateToken, validateAllTokens } from '../wordValidation';
+import { validateToken, validateAllTokens } from './wordValidation';
 
 // Mock the wordSet to have predictable test results
-jest.mock('../../config/wordSet', () => ({
+jest.mock('../config/wordSet', () => ({
   wordSet: new Set(['hello', 'world', 'test', 'valid', 'word', 'he', 'quietly', 'said'])
 }));
 
@@ -23,11 +23,9 @@ describe('wordValidation', () => {
         const tokens = ['invalidword', ' ', 'test'];
         const result = validateToken('invalidword', tokens, 0);
         
-        expect(result).toEqual({
-          className: 'bg-red-200 text-red-800 px-1',
-          isValid: false,
-          tokenType: 'word'
-        });
+        expect(result.className).toContain('bg-red-200 text-red-800 px-1');
+        expect(result.isValid).toBe(false);
+        expect(result.tokenType).toBe('word');
       });
 
       it('should handle case-insensitive validation', () => {
@@ -144,11 +142,9 @@ describe('wordValidation', () => {
       });
       
       // invalid - invalid word
-      expect(results[3]).toEqual({
-        className: 'bg-red-200 text-red-800 px-1',
-        isValid: false,
-        tokenType: 'word'
-      });
+      expect(results[3].className).toContain('bg-red-200 text-red-800 px-1');
+      expect(results[3].isValid).toBe(false);
+      expect(results[3].tokenType).toBe('word');
       
       // space - whitespace
       expect(results[4]).toEqual({
